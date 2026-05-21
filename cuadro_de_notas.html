@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadro de Notas - Contabilidad de Costo II</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .table-custom th, .table-custom td {
+            border: 1px solid #d1d5db;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-lg p-8">
+        <div class="flex justify-between items-center mb-8 border-b pb-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Cuadro de Notas - Contabilidad de Costo II</h1>
+                <p class="text-gray-600 mt-2">Profesor: Lic. Frank Clemente | UCSAR - Trimestre II 2026</p>
+            </div>
+            <a href="index.html" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                <span class="mr-2">🏠</span> Volver
+            </a>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-lg mb-8 border-l-4 border-blue-500">
+            <h3 class="font-bold text-blue-800 mb-2">Instrucciones para Google Docs / Google Sheets</h3>
+            <p class="text-blue-700 text-sm">
+                Puedes seleccionar y copiar esta tabla y pegarla directamente en Google Sheets o Google Docs. 
+                Recuerda que los estudiantes deben llenar su nombre completo en MAYÚSCULAS y la cédula sin puntos.
+            </p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left table-custom border-collapse">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                    <tr>
+                        <th rowspan="2" class="px-6 py-3 text-center w-12 bg-gray-200">N°</th>
+                        <th rowspan="2" class="px-6 py-3 bg-gray-200">Cédula</th>
+                        <th rowspan="2" class="px-6 py-3 w-64 bg-gray-200">Nombres y Apellidos</th>
+                        <th colspan="8" class="px-6 py-2 text-center bg-blue-100 border-b border-gray-300">Semanas y Porcentajes</th>
+                        <th rowspan="2" class="px-6 py-3 text-center bg-green-100 font-bold">Total Acumulado</th>
+                        <th rowspan="2" class="px-6 py-3 text-center bg-gray-200">Observaciones</th>
+                    </tr>
+                    <tr>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 1<br><span class="text-xs font-normal">20%</span></th>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 2<br><span class="text-xs font-normal">20%</span></th>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 3<br><span class="text-xs font-normal">10%</span></th>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 4<br><span class="text-xs font-normal">20%</span></th>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 5<br><span class="text-xs font-normal">10%</span></th>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 6<br><span class="text-xs font-normal">20%</span></th>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 7<br><span class="text-xs font-normal">10%</span></th>
+                        <th class="px-3 py-2 text-center bg-blue-50">Sem 8<br><span class="text-xs font-normal">20%</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Generando 15 filas de ejemplo vacías -->
+                    <script>
+                        for(let i=1; i<=15; i++) {
+                            document.write(`
+                            <tr class="bg-white hover:bg-gray-50">
+                                <td class="px-6 py-3 text-center font-medium text-gray-900">${i}</td>
+                                <td class="px-6 py-3"></td>
+                                <td class="px-6 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-3 py-3"></td>
+                                <td class="px-6 py-3 bg-green-50 font-bold text-center"></td>
+                                <td class="px-6 py-3"></td>
+                            </tr>
+                            `);
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
