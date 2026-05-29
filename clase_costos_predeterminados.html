@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase: Costos Predeterminados vs. Históricos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 40px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 15px; font-weight: 700; }
+        .header p { font-size: 1.2em; opacity: 0.95; }
+        .info-bar { background: #f8f9fa; padding: 20px 40px; border-bottom: 3px solid #3498db; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; }
+        .info-item { background: white; padding: 10px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .info-item strong { color: #2c3e50; }
+        .content { padding: 40px; }
+        section { margin-bottom: 50px; }
+        h2 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 25px; font-size: 2em; }
+        h3 { color: #3498db; margin: 25px 0 15px 0; font-size: 1.5em; }
+        p { margin-bottom: 15px; text-align: justify; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        th { background: #2c3e50; color: white; padding: 15px; text-align: left; font-weight: 600; }
+        td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        tr:nth-child(even) { background: #f8f9fa; }
+        tr:hover { background: #e8f4f8; }
+        .highlight { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        .exercise-box { background: #e8f4f8; border: 2px solid #3498db; border-radius: 10px; padding: 25px; margin: 20px 0; }
+        .exercise-box h4 { color: #2c3e50; margin-bottom: 15px; font-size: 1.3em; }
+        .formula { background: #f8f9fa; padding: 15px; border-left: 4px solid #27ae60; margin: 15px 0; font-family: 'Courier New', monospace; font-size: 1.1em; }
+        .answer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 15px; margin: 20px 0; }
+        .answer-field { background: white; padding: 15px; border: 2px solid #ddd; border-radius: 8px; position: relative; }
+        .answer-field label { display: block; font-weight: 600; margin-bottom: 8px; color: #2c3e50; }
+        .answer-field input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; }
+        .footer { background: #2c3e50; color: white; padding: 30px 40px; text-align: center; }
+        .bibliography { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .bibliography ul { list-style: none; padding-left: 0; }
+        .bibliography li { padding: 8px 0; border-bottom: 1px solid #ddd; }
+        .tag { display: inline-block; background: #3498db; color: white; padding: 3px 10px; border-radius: 15px; font-size: 0.85em; margin-right: 5px; }
+        @media (max-width: 768px) { .header h1 { font-size: 1.8em; } .content { padding: 20px; } .info-bar { flex-direction: column; } table { font-size: 0.9em; } }
+        
+        /* Estilos del Simulador Interactivo */
+        .simulator-nav { display: flex; gap: 10px; border-bottom: 2px solid #e2e8f0; margin-bottom: 25px; padding-bottom: 10px; flex-wrap: wrap; }
+        .sim-tab-btn { background: #edf2f7; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; color: #4a5568; transition: all 0.3s ease; }
+        .sim-tab-btn:hover { background: #e2e8f0; }
+        .sim-tab-btn.active { background: #3498db; color: white; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .sim-tab-content { display: none; }
+        .sim-tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .input-feedback { font-size: 0.85em; margin-top: 5px; display: block; font-weight: 500; }
+        .input-feedback.correct { color: #2e7d32; }
+        .input-feedback.incorrect { color: #c62828; }
+        
+        .answer-field input.is-valid { border-color: #2e7d32 !important; background-color: #e8f5e9 !important; box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2); }
+        .answer-field input.is-invalid { border-color: #c62828 !important; background-color: #ffebee !important; box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.2); }
+        
+        .sim-actions { display: flex; gap: 15px; margin: 30px 0 20px 0; flex-wrap: wrap; }
+        .sim-btn { border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; font-size: 0.95em; }
+        .sim-btn-primary { background: #2e7d32; color: white; }
+        .sim-btn-primary:hover { background: #1b5e20; transform: translateY(-2px); }
+        .sim-btn-secondary { background: #f39c12; color: white; }
+        .sim-btn-secondary:hover { background: #d68910; transform: translateY(-2px); }
+        .sim-btn-info { background: #34495e; color: white; }
+        .sim-btn-info:hover { background: #2c3e50; transform: translateY(-2px); }
+
+        .solution-card { background: #fdfefe; border: 2px solid #27ae60; border-radius: 12px; padding: 25px; margin-top: 25px; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .solution-title { font-size: 1.2em; font-weight: 700; color: #27ae60; border-bottom: 2px solid #27ae60; padding-bottom: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .solution-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #e2e8f0; }
+        .solution-item:last-child { border: none; margin: 0; padding: 0; }
+        
+        .floating-back { position: fixed; bottom: 30px; right: 30px; background: #3498db; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-decoration: none; font-size: 1.5em; z-index: 1000; transition: all 0.3s ease; }
+        .floating-back:hover { background: #2980b9; transform: scale(1.1) rotate(-10deg); }
+        .floating-back i { font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 COSTOS PREDETERMINADOS VS. COSTOS HISTÓRICOS</h1>
+            <p>Clase para Licenciatura en Contaduría</p>
+        </div>
+        
+        <div class="info-bar">
+            <div class="info-item"><strong>📅 Fecha:</strong> 29 de mayo de 2026</div>
+            <div class="info-item"><strong>⏰ Horario:</strong> 5:00 pm – 8:00 pm</div>
+            <div class="info-item"><strong>👨‍🏫 Docente:</strong> Especialista en Costos</div>
+            <div class="info-item"><strong>🎯 Nivel:</strong> Licenciatura en Contaduría</div>
+        </div>
+
+        <div class="content">
+            <section id="objetivo">
+                <h2>🎯 Objetivo de la Clase</h2>
+                <p>Que los alumnos comprendan la naturaleza, diferencias y aplicaciones prácticas de los <strong>costos predeterminados</strong> y <strong>costos históricos</strong>, y puedan calcular variaciones para toma de decisiones gerenciales.</p>
+            </section>
+
+            <section id="costos-predeterminados">
+                <h2>📘 PARTE 1: COSTOS PREDETERMINADOS</h2>
+                <p><strong>Concepto:</strong> Los costos predeterminados son aquellos que se <strong>calculan antes de comenzar el proceso de producción</strong> de un artículo o prestación de un servicio, mediante estudios técnicos y análisis de bases históricas.</p>
+
+                <h3>Características</h3>
+                <table>
+                    <tr><th>Característica</th><th>Descripción</th></tr>
+                    <tr><td><strong>Anticipados</strong></td><td>Se calculan antes de la producción</td></tr>
+                    <tr><td><strong>Basados en estudios</strong></td><td>Usan análisis técnico, experiencia histórica o estándares de industria</td></tr>
+                    <tr><td><strong>Comparables</strong></td><td>Permiten comparar lo planificado vs. real</td></tr>
+                    <tr><td><strong>Herramienta de control</strong></td><td>Facilitan control interno y detección de ineficiencias</td></tr>
+                    <tr><td><strong>Útiles para fijar precios</strong></td><td>Permiten establecer precios de venta antes de producir</td></tr>
+                </table>
+
+                <h3>Clasificación</h3>
+                <table>
+                    <tr><th>Tipo</th><th>Definición</th><th>Base de cálculo</th></tr>
+                    <tr><td><strong>Costos Estimados</strong></td><td>Expectativas teóricas basadas en <strong>experiencia pasada</strong></td><td>Experiencia previa, datos históricos</td></tr>
+                    <tr><td><strong>Costos Estándar</strong></td><td>Costos teóricos bajo <strong>niveles normales de eficiencia</strong></td><td>Estudios de tiempo y movimiento</td></tr>
+                </table>
+
+                <h3>Objetivos</h3>
+                <div class="highlight">
+                    <ul>
+                        <li>Establecer <strong>precios de venta</strong> antes de producir</li>
+                        <li>Realizar <strong>comparaciones</strong> planificado vs. real</li>
+                        <li>Desarrollar <strong>estrategias</strong> sin esperar datos reales</li>
+                        <li>Establecer <strong>modelos de medición</strong> para corrección</li>
+                        <li>Apoyar <strong>toma de decisiones</strong> administrativas</li>
+                        <li>Preparar <strong>estados financieros</strong> sin inventarios físicos</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="costos-historicos">
+                <h2>📗 PARTE 2: COSTOS HISTÓRICOS O REALES</h2>
+                <p><strong>Concepto:</strong> Los <strong>costos históricos o reales</strong> son costos <strong>ya realizados</strong> durante el proceso de producción. Se registran <strong>cuando se incurren</strong> y se conoce hasta que finaliza el periodo.</p>
+
+                <h3>Características</h3>
+                <table>
+                    <tr><th>Característica</th><th>Descripción</th></tr>
+                    <tr><td><strong>Post-producción</strong></td><td>Se determinan <strong>después</strong> de la producción</td></tr>
+                    <tr><td><strong>Reales</strong></td><td>Reflejan lo que <strong>efectivamente se gastó</strong></td></tr>
+                    <tr><td><strong>Acumulativos</strong></td><td>MPD, MOD y CIF se acumulan gradualmente</td></tr>
+                    <tr><td><strong>Técnica primaria</strong></td><td>Base principal de valuación de inventarios</td></tr>
+                </table>
+
+                <h3>Diferencias Clave</h3>
+                <table>
+                    <tr><th>Dimensión</th><th>Predeterminados</th><th>Históricos</th></tr>
+                    <tr><td><strong>Momento</strong></td><td><strong>Antes</strong> de producir</td><td><strong>Después</strong> de producir</td></tr>
+                    <tr><td><strong>Naturaleza</strong></td><td>Expectativa/planificación</td><td>Dato real/efectivo</td></tr>
+                    <tr><td><strong>Base</strong></td><td>Estudios técnicos, estándares</td><td>Gastos incurridos</td></tr>
+                    <tr><td><strong>Uso</strong></td><td>Planificación, control, precios</td><td>Valuación, estados financieros</td></tr>
+                </table>
+            </section>
+
+            <section id="ejercicio-docente">
+                <h2>📙 PARTE 3: EJERCICIO EXPLICATIVO</h2>
+                <div class="exercise-box">
+                    <h4>🏭 Muebles del Caribe, C.A. - Mesa de comedor (100 mesas)</h4>
+                    
+                    <h5>Costo Estándar:</h5>
+                    <table>
+                        <tr><th>Concepto</th><th>Cant.</th><th>Precio</th><th>Total</th></tr>
+                        <tr><td>Madera</td><td>10 m²</td><td>$15/m²</td><td>$150</td></tr>
+                        <tr><td>MOD</td><td>4 h</td><td>$12/h</td><td>$48</td></tr>
+                        <tr><td>CIF</td><td>4 h</td><td>$8/h</td><td>$32</td></tr>
+                        <tr><td><strong>UNITARIO</strong></td><td></td><td></td><td><strong>$230</strong></td></tr>
+                    </table>
+
+                    <h5>Costo Real:</h5>
+                    <table>
+                        <tr><th>Concepto</th><th>Total</th><th>Unitario</th></tr>
+                        <tr><td>Madera</td><td>$16,800</td><td>$160</td></tr>
+                        <tr><td>MOD</td><td>$5,460</td><td>$52</td></tr>
+                        <tr><td>CIF</td><td>$3,570</td><td>$35</td></tr>
+                        <tr><td><strong>UNITARIO</strong></td><td></td><td><strong>$247</strong></td></tr>
+                    </table>
+
+                    <div class="formula">
+                        <strong>Variación = Real - Estándar</strong><br>
+                        $247 - $230 = <strong>$17 desfavorable/unidad</strong><br>
+                        Total: 100 × $17 = <strong>$1,700 desfavorable</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Botón flotante para regresar a la Sesión 1 -->
+            <a href="sesion-1.html" class="floating-back" title="Volver a la Sesión 1">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+
+            <section id="ejercicio-alumnos">
+                <h2>📕 PARTE 4: AMBIENTE DE EJERCICIO PRÁCTICO INTERACTIVO</h2>
+                <p class="highlight" style="background: #e3f2fd; border-left-color: #1e88e5; color: #0d47a1;">
+                    <i class="fas fa-info-circle mr-2"></i> <strong>Instrucciones:</strong> Utiliza el simulador interactivo de abajo para resolver el caso práctico de <strong>Textil Valencia, C.A.</strong> Puedes ingresar tus resultados paso a paso y hacer clic en <strong>"Validar Respuestas"</strong> para obtener retroalimentación en tiempo real.
+                </p>
+
+                <div class="exercise-box" style="background: #ffffff; border: 2px solid #2980b9; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <h4 style="color: #2c3e50; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-industry text-blue-600"></i> Textil Valencia, C.A. - Caso de Estudio: 500 camisas
+                    </h4>
+                    
+                    <div class="two-column" style="margin-bottom: 30px;">
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h5 style="font-weight: 700; color: #2c3e50; margin-bottom: 10px; font-size: 1.1em;"><i class="fas fa-clipboard-list text-blue-500 mr-2"></i>A) Costo Estándar por Unidad:</h5>
+                            <table style="margin: 0; font-size: 0.9em; box-shadow: none;">
+                                <thead>
+                                    <tr><th style="padding: 8px 12px;">Concepto</th><th style="padding: 8px 12px;">Cantidad Estándar</th><th style="padding: 8px 12px;">Precio Estándar</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Tela (MPD)</td><td>2 m</td><td>$8.00 / m</td></tr>
+                                    <tr><td>Botones (CIF var)</td><td>1 un.</td><td>$2.00 / un.</td></tr>
+                                    <tr><td>Mano de Obra Directa (MOD)</td><td>1.5 h</td><td>$10.00 / h</td></tr>
+                                    <tr><td>CIF Fijo</td><td>1.5 h</td><td>$6.00 / h</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h5 style="font-weight: 700; color: #2c3e50; margin-bottom: 10px; font-size: 1.1em;"><i class="fas fa-receipt text-green-500 mr-2"></i>B) Datos Reales del Mes (Producción: 500 Unidades):</h5>
+                            <table style="margin: 0; font-size: 0.9em; box-shadow: none;">
+                                <thead>
+                                    <tr><th style="padding: 8px 12px;">Concepto</th><th style="padding: 8px 12px;">Cantidad Real Incurrida</th><th style="padding: 8px 12px;">Costo Histórico Total</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Tela (MPD)</td><td>1,050 m</td><td>$8,925.00</td></tr>
+                                    <tr><td>Botones (CIF var)</td><td>520 un.</td><td>$1,144.00</td></tr>
+                                    <tr><td>Mano de Obra Directa (MOD)</td><td>780 h</td><td>$8,190.00</td></tr>
+                                    <tr><td>CIF Fijo</td><td>-</td><td>$4,800.00</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑAS DEL SIMULADOR -->
+                    <div class="simulator-nav">
+                        <button class="sim-tab-btn active" onclick="switchSimTab(event, 'tab-estandar')">
+                            <i class="fas fa-list-check mr-1"></i> Paso 1: Costo Estándar Unitario
+                        </button>
+                        <button class="sim-tab-btn" onclick="switchSimTab(event, 'tab-real')">
+                            <i class="fas fa-calculator mr-1"></i> Paso 2: Costo Real Unitario
+                        </button>
+                        <button class="sim-tab-btn" onclick="switchSimTab(event, 'tab-variacion')">
+                            <i class="fas fa-chart-bar mr-1"></i> Paso 3: Análisis de Variaciones
+                        </button>
+                    </div>
+
+                    <!-- CONTENIDO DE TABS -->
+                    <form id="simulator-form" onsubmit="event.preventDefault();">
+                        <!-- TAB 1: ESTANDAR -->
+                        <div id="tab-estandar" class="sim-tab-content active">
+                            <p style="color: #64748b; margin-bottom: 15px;"><i class="far fa-lightbulb mr-1"></i> Calcule el costo unitario estándar multiplicando la cantidad estándar por el precio estándar para cada elemento.</p>
+                            <div class="answer-grid">
+                                <div class="answer-field">
+                                    <label for="est-mpd">MPD (Tela) Estándar ($)</label>
+                                    <input type="number" step="0.01" id="est-mpd" placeholder="2 m × $8 = ?" required>
+                                    <span id="feedback-est-mpd" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="est-mod">MOD Estándar ($)</label>
+                                    <input type="number" step="0.01" id="est-mod" placeholder="1.5 h × $10 = ?" required>
+                                    <span id="feedback-est-mod" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="est-cif-var">CIF Variable Estándar ($)</label>
+                                    <input type="number" step="0.01" id="est-cif-var" placeholder="1 un. × $2 = ?" required>
+                                    <span id="feedback-est-cif-var" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="est-cif-fij">CIF Fijo Estándar ($)</label>
+                                    <input type="number" step="0.01" id="est-cif-fij" placeholder="1.5 h × $6 = ?" required>
+                                    <span id="feedback-est-cif-fij" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field" style="background: #f8fafc; border: 2px solid #3498db;">
+                                    <label for="est-total" style="color: #2980b9;"><strong>ESTÁNDAR TOTAL UNITARIO ($)</strong></label>
+                                    <input type="number" step="0.01" id="est-total" placeholder="Suma de elementos estándar" required>
+                                    <span id="feedback-est-total" class="input-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: REAL -->
+                        <div id="tab-real" class="sim-tab-content">
+                            <p style="color: #64748b; margin-bottom: 15px;"><i class="far fa-lightbulb mr-1"></i> Calcule el costo unitario histórico dividiendo el Costo Total incurrido entre las 500 unidades producidas.</p>
+                            <div class="answer-grid">
+                                <div class="answer-field">
+                                    <label for="real-mpd">MPD (Tela) Real Unitario ($)</label>
+                                    <input type="number" step="0.01" id="real-mpd" placeholder="$8,925 / 500 = ?" required>
+                                    <span id="feedback-real-mpd" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="real-mod">MOD Real Unitario ($)</label>
+                                    <input type="number" step="0.01" id="real-mod" placeholder="$8,190 / 500 = ?" required>
+                                    <span id="feedback-real-mod" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="real-cif-var">CIF Variable Real Unitario ($)</label>
+                                    <input type="number" step="0.01" id="real-cif-var" placeholder="$1,144 / 500 = ?" required>
+                                    <span id="feedback-real-cif-var" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="real-cif-fij">CIF Fijo Real Unitario ($)</label>
+                                    <input type="number" step="0.01" id="real-cif-fij" placeholder="$4,800 / 500 = ?" required>
+                                    <span id="feedback-real-cif-fij" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field" style="background: #f8fafc; border: 2px solid #2ecc71;">
+                                    <label for="real-total" style="color: #27ae60;"><strong>HISTÓRICO REAL TOTAL UNITARIO ($)</strong></label>
+                                    <input type="number" step="0.01" id="real-total" placeholder="Suma de elementos real" required>
+                                    <span id="feedback-real-total" class="input-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: VARIACIONES -->
+                        <div id="tab-variacion" class="sim-tab-content">
+                            <p style="color: #64748b; margin-bottom: 15px;"><i class="far fa-lightbulb mr-1"></i> Determine la variación unitaria usando la fórmula técnica: <strong>Variación = Costo Real - Costo Estándar</strong>.</p>
+                            <div class="answer-grid">
+                                <div class="answer-field">
+                                    <label for="var-mpd">Variación MPD ($)</label>
+                                    <input type="number" step="0.01" id="var-mpd" placeholder="Real MPD - Estándar MPD" required>
+                                    <span id="feedback-var-mpd" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="var-mod">Variación MOD ($)</label>
+                                    <input type="number" step="0.01" id="var-mod" placeholder="Real MOD - Estándar MOD" required>
+                                    <span id="feedback-var-mod" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="var-cif-var">Variación CIF Var ($)</label>
+                                    <input type="number" step="0.01" id="var-cif-var" placeholder="Real CIF Var - Est. CIF Var" required>
+                                    <span id="feedback-var-cif-var" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field">
+                                    <label for="var-cif-fij">Variación CIF Fijo ($)</label>
+                                    <input type="number" step="0.01" id="var-cif-fij" placeholder="Real CIF Fijo - Est. CIF Fijo" required>
+                                    <span id="feedback-var-cif-fij" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field" style="background: #fff9db; border: 2px solid #f1c40f;">
+                                    <label for="var-total" style="color: #b7791f;"><strong>VARIACIÓN TOTAL UNITARIA ($)</strong></label>
+                                    <input type="number" step="0.01" id="var-total" placeholder="Real Total - Estándar Total" required>
+                                    <span id="feedback-var-total" class="input-feedback"></span>
+                                </div>
+                                <div class="answer-field" style="background: #fff9db; border: 2px solid #f1c40f;">
+                                    <label for="var-total-tipo" style="color: #b7791f;"><strong>TIPO DE VARIACIÓN GLOBAL</strong></label>
+                                    <select id="var-total-tipo" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;" required>
+                                        <option value="" disabled selected>Seleccione...</option>
+                                        <option value="favorable">Favorable (F)</option>
+                                        <option value="desfavorable">Desfavorable (D)</option>
+                                    </select>
+                                    <span id="feedback-var-total-tipo" class="input-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PANEL DINÁMICO DE RESULTADOS (ALERT) -->
+                        <div id="sim-result-alert" class="highlight" style="display: none; padding: 20px; transition: all 0.3s ease;">
+                            <h4 id="sim-result-title" style="margin-bottom: 8px; font-weight: bold; font-size: 1.1em; display: flex; align-items: center; gap: 8px;"></h4>
+                            <p id="sim-result-desc" style="margin: 0; font-size: 0.95em;"></p>
+                        </div>
+
+                        <!-- ACCIONES -->
+                        <div class="sim-actions">
+                            <button type="button" class="sim-btn sim-btn-primary" onclick="validateSimulator()">
+                                <i class="fas fa-check-double"></i> Validar Respuestas
+                            </button>
+                            <button type="button" class="sim-btn sim-btn-secondary" onclick="resetSimulator()">
+                                <i class="fas fa-rotate"></i> Limpiar Campos
+                            </button>
+                            <button type="button" class="sim-btn sim-btn-info" onclick="toggleSolution()">
+                                <i class="fas fa-eye"></i> Mostrar Solución Explicada
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- ACORDEÓN DE SOLUCIÓN EXPLICADA (TEACHER MODE / AUTO-ASSESSMENT) -->
+                    <div id="solution-section" class="solution-card">
+                        <div class="solution-title">
+                            <i class="fas fa-chalkboard-teacher"></i> Guía Completa de Resolución y Análisis Técnico
+                        </div>
+                        
+                        <div class="solution-item">
+                            <h5 style="font-weight: 700; color: #27ae60; margin-bottom: 5px;"><i class="fas fa-calculator mr-1"></i> 1. Costo Estándar Unitario:</h5>
+                            <p style="font-size: 0.9em; color: #4a5568; margin-bottom: 5px;">Se determina cuantificando los consumos planificados por unidad:</p>
+                            <ul style="list-style-type: circle; margin-left: 25px; font-size: 0.9em; color: #4a5568;">
+                                <li><strong>MPD (Tela):</strong> 2 m × $8.00 / m = <strong>$16.00</strong></li>
+                                <li><strong>MOD:</strong> 1.5 h × $10.00 / h = <strong>$15.00</strong></li>
+                                <li><strong>CIF Variable:</strong> 1 un. × $2.00 / un. = <strong>$2.00</strong></li>
+                                <li><strong>CIF Fijo:</strong> 1.5 h × $6.00 / h = <strong>$9.00</strong></li>
+                                <li><strong>Total Estándar Unitario:</strong> 16 + 15 + 2 + 9 = <strong>$42.00</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="solution-item">
+                            <h5 style="font-weight: 700; color: #27ae60; margin-bottom: 5px;"><i class="fas fa-industry mr-1"></i> 2. Costo Histórico (Real) Unitario:</h5>
+                            <p style="font-size: 0.9em; color: #4a5568; margin-bottom: 5px;">Se divide el costo acumulado real del mes entre el nivel real de producción (500 camisas):</p>
+                            <ul style="list-style-type: circle; margin-left: 25px; font-size: 0.9em; color: #4a5568;">
+                                <li><strong>MPD (Tela):</strong> $8,925.00 / 500 unidades = <strong>$17.85</strong></li>
+                                <li><strong>MOD:</strong> $8,190.00 / 500 unidades = <strong>$16.38</strong></li>
+                                <li><strong>CIF Variable:</strong> $1,144.00 / 500 unidades = <strong>$2.29</strong></li>
+                                <li><strong>CIF Fijo:</strong> $4,800.00 / 500 unidades = <strong>$9.60</strong></li>
+                                <li><strong>Total Real Unitario:</strong> 17.85 + 16.38 + 2.29 + 9.60 = <strong>$46.12</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="solution-item">
+                            <h5 style="font-weight: 700; color: #27ae60; margin-bottom: 5px;"><i class="fas fa-chart-line mr-1"></i> 3. Variaciones (Costo Real - Costo Estándar):</h5>
+                            <p style="font-size: 0.9em; color: #4a5568; margin-bottom: 5px;">La variación por elemento y el total se calculan directamente:</p>
+                            <ul style="list-style-type: circle; margin-left: 25px; font-size: 0.9em; color: #4a5568;">
+                                <li><strong>Variación MPD:</strong> $17.85 (Real) - $16.00 (Estándar) = <strong>+$1.85</strong> <span style="color: #c62828; font-weight:bold;">(Desfavorable)</span></li>
+                                <li><strong>Variación MOD:</strong> $16.38 (Real) - $15.00 (Estándar) = <strong>+$1.38</strong> <span style="color: #c62828; font-weight:bold;">(Desfavorable)</span></li>
+                                <li><strong>Variación CIF Variable:</strong> $2.29 (Real) - $2.00 (Estándar) = <strong>+$0.29</strong> <span style="color: #c62828; font-weight:bold;">(Desfavorable)</span></li>
+                                <li><strong>Variación CIF Fijo:</strong> $9.60 (Real) - $9.00 (Estándar) = <strong>+$0.60</strong> <span style="color: #c62828; font-weight:bold;">(Desfavorable)</span></li>
+                                <li><strong>Variación Total Global:</strong> $46.12 (Real) - $42.00 (Estándar) = <strong>+$4.12</strong> <span style="color: #c62828; font-weight:bold;">(Desfavorable)</span></li>
+                            </ul>
+                            <div class="highlight" style="margin-top: 15px; background: #ffebee; border-left-color: #c62828; color: #c62828; font-size: 0.9em;">
+                                <strong>💡 Interpretación Contable:</strong> La variación global es <strong>Desfavorable (D)</strong> porque el costo real superó al estándar en <strong>$4.12 por unidad</strong> (un sobrecosto total de <strong>$2,060.00</strong> para el lote de 500 camisas). El principal causante fue la <strong>Materia Prima Directa (MPD)</strong> con una desviación de $1.85/unidad, lo cual exige revisar si hubo ineficiencias en el corte de tela o incrementos de precios de proveedores.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SCRIPT DEL SIMULADOR INTERACTIVO -->
+            <script>
+                // Respuestas correctas del simulador
+                const correctAnswers = {
+                    'est-mpd': 16.00,
+                    'est-mod': 15.00,
+                    'est-cif-var': 2.00,
+                    'est-cif-fij': 9.00,
+                    'est-total': 42.00,
+                    'real-mpd': 17.85,
+                    'real-mod': 16.38,
+                    'real-cif-var': 2.29,
+                    'real-cif-fij': 9.60,
+                    'real-total': 46.12,
+                    'var-mpd': 1.85,
+                    'var-mod': 1.38,
+                    'var-cif-var': 0.29,
+                    'var-cif-fij': 0.60,
+                    'var-total': 4.12,
+                    'var-total-tipo': 'desfavorable'
+                };
+
+                // Navegación entre pestañas
+                function switchSimTab(evt, tabId) {
+                    const tabContents = document.getElementsByClassName("sim-tab-content");
+                    for (let i = 0; i < tabContents.length; i++) {
+                        tabContents[i].classList.remove("active");
+                    }
+                    const tabButtons = document.getElementsByClassName("sim-tab-btn");
+                    for (let i = 0; i < tabButtons.length; i++) {
+                        tabButtons[i].classList.remove("active");
+                    }
+                    document.getElementById(tabId).classList.add("active");
+                    evt.currentTarget.classList.add("active");
+                }
+
+                // Toggles solución explicada
+                function toggleSolution() {
+                    const solSec = document.getElementById("solution-section");
+                    if (solSec.style.display === "block") {
+                        solSec.style.display = "none";
+                    } else {
+                        solSec.style.display = "block";
+                        solSec.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+
+                // Limpiar todo el simulador
+                function resetSimulator() {
+                    document.getElementById("simulator-form").reset();
+                    const inputs = document.querySelectorAll("#simulator-form input, #simulator-form select");
+                    inputs.forEach(input => {
+                        input.classList.remove("is-valid", "is-invalid");
+                    });
+                    const feedbacks = document.querySelectorAll(".input-feedback");
+                    feedbacks.forEach(fb => {
+                        fb.textContent = "";
+                        fb.className = "input-feedback";
+                    });
+                    const alertBox = document.getElementById("sim-result-alert");
+                    alertBox.style.display = "none";
+                    document.getElementById("solution-section").style.display = "none";
+                }
+
+                // Validar respuestas
+                function validateSimulator() {
+                    let totalInputs = 0;
+                    let correctCount = 0;
+                    
+                    for (const [id, value] of Object.entries(correctAnswers)) {
+                        const input = document.getElementById(id);
+                        if (!input) continue;
+                        totalInputs++;
+                        
+                        const userVal = input.value.trim().toLowerCase();
+                        const feedback = document.getElementById(`feedback-${id}`);
+                        
+                        if (userVal === "") {
+                            input.classList.remove("is-valid");
+                            input.classList.add("is-invalid");
+                            if (feedback) {
+                                feedback.textContent = "Campo requerido";
+                                feedback.className = "input-feedback incorrect";
+                            }
+                            continue;
+                        }
+
+                        let isCorrect = false;
+                        if (id === 'var-total-tipo') {
+                            isCorrect = userVal === value;
+                        } else {
+                            const numVal = parseFloat(userVal);
+                            // Tolerancia decimal de 0.02 para facilitar redondeos
+                            isCorrect = Math.abs(numVal - value) <= 0.02;
+                        }
+
+                        if (isCorrect) {
+                            input.classList.remove("is-invalid");
+                            input.classList.add("is-valid");
+                            correctCount++;
+                            if (feedback) {
+                                feedback.textContent = "¡Correcto!";
+                                feedback.className = "input-feedback correct";
+                            }
+                        } else {
+                            input.classList.remove("is-valid");
+                            input.classList.add("is-invalid");
+                            if (feedback) {
+                                feedback.textContent = `Incorrecto. Esperado: ${id === 'var-total-tipo' ? 'Desfavorable' : '$' + value.toFixed(2)}`;
+                                feedback.className = "input-feedback incorrect";
+                            }
+                        }
+                    }
+
+                    // Actualizar alerta dinámica de resultados
+                    const alertBox = document.getElementById("sim-result-alert");
+                    const alertTitle = document.getElementById("sim-result-title");
+                    const alertDesc = document.getElementById("sim-result-desc");
+                    
+                    alertBox.style.display = "block";
+                    const pct = Math.round((correctCount / totalInputs) * 100);
+
+                    if (pct === 100) {
+                        alertBox.style.background = "#e8f5e9";
+                        alertBox.style.borderLeft = "5px solid #2e7d32";
+                        alertBox.style.color = "#1b5e20";
+                        alertTitle.innerHTML = `<i class="fas fa-trophy text-yellow-500"></i> ¡Excelente Trabajo Académico! (Calificación: 20/20)`;
+                        alertDesc.textContent = "Has resuelto todas las variaciones de forma 100% correcta. Comprendes perfectamente la diferencia y el cálculo técnico de costos predeterminados y reales.";
+                    } else if (pct >= 70) {
+                        alertBox.style.background = "#fff3e0";
+                        alertBox.style.borderLeft = "5px solid #f57c00";
+                        alertBox.style.color = "#e65100";
+                        alertTitle.innerHTML = `<i class="fas fa-medal text-blue-500"></i> Buen progreso (Calificación: ${Math.round(pct * 0.2)}/20)`;
+                        alertDesc.textContent = `Completaste correctamente ${correctCount} de ${totalInputs} campos (${pct}%). Revisa los campos resaltados en rojo y realiza el cálculo nuevamente.`;
+                    } else {
+                        alertBox.style.background = "#ffebee";
+                        alertBox.style.borderLeft = "5px solid #c62828";
+                        alertBox.style.color = "#b71c1c";
+                        alertTitle.innerHTML = `<i class="fas fa-triangle-exclamation"></i> Requiere Revisión (Calificación: ${Math.round(pct * 0.2)}/20)`;
+                        alertDesc.innerHTML = `Has acertado ${correctCount} de ${totalInputs} campos. Utiliza el botón <strong>"Mostrar Solución Explicada"</strong> para repasar las fórmulas matemáticas del tema y vuelve a intentarlo.`;
+                    }
+                    
+                    alertBox.scrollIntoView({ behavior: 'smooth' });
+                }
+            </script>
+
+            <section id="cierre">
+                <h2>📚 CIERRE</h2>
+                <table>
+                    <tr><th>Concepto</th><th>Frase Clave</th></tr>
+                    <tr><td><strong>Predeterminados</strong></td><td>"Lo que <strong>debería costar</strong> antes"</td></tr>
+                    <tr><td><strong>Históricos</strong></td><td>"Lo que <strong>costó</strong> después"</td></tr>
+                    <tr><td><strong>Variaciones</strong></td><td>Control y mejora</td></tr>
+                </table>
+
+                <div class="highlight">
+                    <h4>❓ Reflexión:</h4>
+                    <p>¿Por qué es importante para un contador analizar variaciones?</p>
+                </div>
+
+                <div class="highlight" style="background: #d4edda; border-left-color: #28a745;">
+                    <h4>📖 Tarea:</h4>
+                    <p>Investigar: ¿Cómo seregistran contablemente las variaciones de costos estándar?</p>
+                </div>
+            </section>
+
+            <section id="bibliografia">
+                <h2>📌 BIBLIOGRAFÍA</h2>
+                <div class="bibliography">
+                    <ul>
+                        <li><span class="tag">UNAM</span> Costos Predeterminados</li>
+                        <li><span class="tag">UCLA</span> Sistemas de Costos</li>
+                        <li><span class="tag">Concepto.de</span> Costos predeterminados y históricos</li>
+                        <li><span class="tag">Scribd</span> Diferencia costos históricos vs predeterminados</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <div class="footer">
+            <p><strong>✅ Clase lista para impartirse</strong></p>
+            <p style="margin-top: 10px; opacity: 0.9;">Licenciatura en Contaduría | Mayo 2026</p>
+        </div>
+    </div>
+</body>
+</html>
