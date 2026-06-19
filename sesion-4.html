@@ -20,35 +20,125 @@
                 </a>
             </div>
 
-            <div class="space-y-6">
-                <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
-                    <h2 class="text-xl font-bold text-blue-800 mb-4"><i class="fas fa-book-open mr-2"></i>Contenidos</h2>
-                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
-                        <li>Diferencia entre costo real, norma estándar, Tipos de Estándar que pueden ser utilizados, Ventajas y Desventajas, Diferencias entre Costo Estándar y Costos Estimados.</li>
-                        <li>Definición, Procedimientos, Demostración Esquemática del Sistema.</li>
-                        <li>Variación de Uso y Costo en Materiales Directos, Variación de Costo y Eficiencia en Mano de Obra, Variación de los Costos Indirectos de Fabricación.</li>
-                        <li>Contabilización de la Producción, Registro Contable de las Variaciones. Estado de Costo de Ventas.</li>
-                    </ul>
-                </div>
-
-                <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-100">
-                    <h2 class="text-xl font-bold text-yellow-800 mb-4"><i class="fas fa-tasks mr-2"></i>Actividad Evaluativa (20%)</h2>
-                    <p class="text-gray-700 font-medium mb-3">Investigación, exposición, informe, ensayo y prueba objetiva</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                        <div class="bg-white p-4 rounded border border-gray-200">
-                            <h3 class="font-bold text-gray-800 mb-2">Emisor (10%)</h3>
-                            <ul class="list-disc list-inside text-sm text-gray-600">
-                                <li>Investigación (informe y dominio) 10%</li>
-                                <li>Elocución 5%</li>
-                                <li>Practica del ejercicio 5%</li>
+            <div class="space-y-8">
+                <!-- Introducción y Conceptos -->
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 shadow-sm">
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b border-blue-200 pb-2"><i class="fas fa-book-open mr-2"></i>1. Fundamentos de los Costos Estándar</h2>
+                    <div class="grid md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <h3 class="font-bold text-blue-700 mb-2">Definición y Diferencias Clave</h3>
+                            <p class="text-gray-700 text-sm text-justify mb-3">El Costo Estándar representa el costo "deber ser" de un producto bajo condiciones operativas óptimas y de alta eficiencia. A diferencia de los <strong>Costos Estimados</strong> (que se basan en promedios históricos o empíricos), el estándar se basa en estudios de ingeniería de métodos y tiempos rigurosos.</p>
+                            <ul class="list-none space-y-2 text-sm text-gray-700 mt-4">
+                                <li><span class="text-blue-500 mr-2"><i class="fas fa-check"></i></span><strong>Costo Real:</strong> Lo que realmente costó (Pasado).</li>
+                                <li><span class="text-blue-500 mr-2"><i class="fas fa-check"></i></span><strong>Costo Estimado:</strong> Lo que puede costar (Empírico).</li>
+                                <li><span class="text-blue-500 mr-2"><i class="fas fa-check"></i></span><strong>Costo Estándar:</strong> Lo que <em>debe</em> costar (Científico).</li>
                             </ul>
                         </div>
-                        <div class="bg-white p-4 rounded border border-gray-200">
-                            <h3 class="font-bold text-gray-800 mb-2">Receptor (10% aprox)</h3>
-                            <ul class="list-disc list-inside text-sm text-gray-600">
-                                <li>Ensayo 5%</li>
-                                <li>Ejercicios 5%</li>
+                        <div class="bg-white p-4 rounded-lg shadow-inner">
+                            <h3 class="font-bold text-blue-700 mb-2">Tipos de Estándares</h3>
+                            <ul class="space-y-3 text-sm text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">Ideales:</span> 
+                                    <span>Supone eficiencia máxima, sin paros ni desperdicios. Casi inalcanzables.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">Normales:</span> 
+                                    <span>Basados en condiciones normales de operación, considerando holguras lógicas.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">Alcanzables:</span> 
+                                    <span>Muy exigentes pero posibles bajo alta eficiencia. Son los más motivacionales.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Análisis de Variaciones -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2"><i class="fas fa-calculator text-blue-600 mr-2"></i>2. Cálculo de Variaciones (Desviaciones)</h2>
+                    <p class="text-gray-600 mb-6 text-sm">La esencia del sistema estándar es medir y analizar las diferencias (variaciones) entre el costo real incurrido y el estándar predeterminado, para tomar decisiones gerenciales.</p>
+                    
+                    <div class="space-y-6">
+                        <!-- Materiales -->
+                        <div class="border-l-4 border-indigo-500 pl-4">
+                            <h3 class="text-lg font-bold text-indigo-800 mb-2">A. Variaciones en Materiales Directos</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-indigo-50 p-3 rounded">
+                                    <span class="font-bold text-indigo-700 block">Variación de Precio (VP):</span>
+                                    <code>VP = (Precio Real - Precio Estándar) × Cantidad Real Comprada</code>
+                                    <p class="mt-1 text-xs text-gray-600">Mide la habilidad del depto. de compras para negociar con proveedores.</p>
+                                </div>
+                                <div class="bg-indigo-50 p-3 rounded">
+                                    <span class="font-bold text-indigo-700 block">Variación de Cantidad/Uso (VC):</span>
+                                    <code>VC = (Cantidad Real Usada - Cantidad Estándar) × Precio Estándar</code>
+                                    <p class="mt-1 text-xs text-gray-600">Mide la eficiencia productiva en la utilización de la materia prima (desperdicios).</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mano de Obra -->
+                        <div class="border-l-4 border-emerald-500 pl-4">
+                            <h3 class="text-lg font-bold text-emerald-800 mb-2">B. Variaciones en Mano de Obra Directa</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-emerald-50 p-3 rounded">
+                                    <span class="font-bold text-emerald-700 block">Variación de Tarifa/Costo (VT):</span>
+                                    <code>VT = (Tarifa Real - Tarifa Estándar) × Horas Reales Trabajadas</code>
+                                    <p class="mt-1 text-xs text-gray-600">Impactada por aumentos salariales o uso de personal no cualificado/sobre-cualificado.</p>
+                                </div>
+                                <div class="bg-emerald-50 p-3 rounded">
+                                    <span class="font-bold text-emerald-700 block">Variación de Eficiencia (VE):</span>
+                                    <code>VE = (Horas Reales - Horas Estándar) × Tarifa Estándar</code>
+                                    <p class="mt-1 text-xs text-gray-600">Mide el tiempo productivo de los obreros frente al estimado por ingeniería.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contabilización -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b border-slate-300 pb-2"><i class="fas fa-file-invoice-dollar text-slate-600 mr-2"></i>3. Contabilización y Registros</h2>
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1 text-sm text-gray-700 text-justify">
+                            <p class="mb-3">Bajo el método de <strong>registro parcial o dual</strong>, el inventario de Producción en Proceso se debita a Costo Real y se acredita a Costo Estándar. La diferencia genera las cuentas de variaciones directamente en los libros diarios.</p>
+                            <p><strong>Cierre de Variaciones:</strong></p>
+                            <ul class="list-disc ml-5 mt-2 space-y-1">
+                                <li>Si son poco significativas, se cancelan contra el <em>Costo de Ventas</em> al final del período.</li>
+                                <li>Si son muy materiales, deben prorratearse entre <em>Inv. Final de Proceso, Inv. Final Terminados y Costo de Ventas</em>.</li>
+                            </ul>
+                        </div>
+                        <div class="flex-1 bg-white p-4 rounded-lg shadow border border-gray-100 font-mono text-xs">
+                            <p class="text-gray-500 mb-2 border-b pb-1">Ejemplo de Cierre de Variación Desfavorable (Costo > Estándar)</p>
+                            <div class="flex justify-between text-red-600"><span>Costo de Ventas</span><span>XXX</span></div>
+                            <div class="flex justify-between pl-4 text-gray-800"><span>Variación Precio Materiales</span><span>XXX</span></div>
+                            <div class="flex justify-between pl-4 text-gray-800"><span>Variación Eficiencia MOD</span><span>XXX</span></div>
+                            <p class="text-gray-400 mt-2 italic text-[10px]">Cierre de variaciones que disminuyeron la utilidad operativa.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-200 shadow-sm">
+                    <h2 class="text-xl font-bold text-yellow-800 mb-4 flex items-center">
+                        <span class="bg-yellow-200 p-2 rounded-full mr-3"><i class="fas fa-tasks"></i></span>
+                        Actividad Evaluativa (20%)
+                    </h2>
+                    <p class="text-gray-700 font-medium mb-4 text-sm">El estudiante debe dominar el origen del cálculo estandarizado de la cuota CIF y defender el análisis de las variaciones.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div class="bg-white p-5 rounded-lg border-t-4 border-yellow-500 shadow-sm">
+                            <h3 class="font-bold text-gray-800 mb-3 flex justify-between">Rol: Emisor <span class="text-yellow-600">10%</span></h3>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex items-center"><i class="fas fa-search text-gray-400 w-5"></i> Investigación e Informe (5%)</li>
+                                <li class="flex items-center"><i class="fas fa-microphone text-gray-400 w-5"></i> Elocución y Dominio (2.5%)</li>
+                                <li class="flex items-center"><i class="fas fa-chalkboard text-gray-400 w-5"></i> Práctica del Ejercicio (2.5%)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border-t-4 border-orange-500 shadow-sm">
+                            <h3 class="font-bold text-gray-800 mb-3 flex justify-between">Rol: Receptor <span class="text-orange-600">10%</span></h3>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex items-center"><i class="fas fa-pen-fancy text-gray-400 w-5"></i> Ensayo Crítico Individual (5%)</li>
+                                <li class="flex items-center"><i class="fas fa-calculator text-gray-400 w-5"></i> Resolución de Ejercicios (5%)</li>
                             </ul>
                         </div>
                     </div>
