@@ -1,52 +1,456 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sesión 3 - Costos Estimados - Contabilidad de Costo II</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sesion 3 - Costos Estimados II - Contabilidad de Costo II</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;line-height:1.6;color:#333;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);min-height:100vh;padding:20px}
+.container{max-width:1100px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4);overflow:hidden}
+.header{background:linear-gradient(135deg,#1a1a2e 0%,#533483 100%);color:#fff;padding:40px;text-align:center;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e94560,#f5a623,#2ecc71,#3498db)}
+.header h1{font-size:2.2em;margin-bottom:10px;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.header .subtitle{opacity:.9;font-size:1.1em;margin-bottom:15px}
+.badges{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:15px}
+.badge{background:rgba(255,255,255,.15);padding:6px 16px;border-radius:20px;font-size:.85em;border:1px solid rgba(255,255,255,.25)}
+.content{padding:40px}
+section{margin-bottom:45px}
+h2{color:#1a1a2e;border-left:5px solid #533483;padding-left:15px;margin-bottom:22px;font-size:1.8em}
+h3{color:#533483;margin:20px 0 12px;font-size:1.3em}
+p{margin-bottom:12px;text-align:justify}
+table{width:100%;border-collapse:collapse;margin:16px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+th{background:#1a1a2e;color:#fff;padding:12px 14px;text-align:left}
+td{padding:10px 14px;border-bottom:1px solid #eee}
+tr:nth-child(even){background:#f8f9ff}
+tr:hover{background:#eef0ff}
+.asiento{background:#f8f9ff;border:1px solid #d0d7ff;border-radius:10px;padding:20px;margin:16px 0;font-family:'Courier New',monospace;font-size:.93em}
+.asiento .titulo{font-family:'Segoe UI',sans-serif;font-weight:700;color:#533483;margin-bottom:12px;font-size:1.05em;border-bottom:2px dashed #d0d7ff;padding-bottom:8px}
+.debe{color:#1a6e1a;font-weight:600}
+.haber{color:#9b1a1a;padding-left:40px}
+.total-line{border-top:2px solid #533483;padding-top:8px;margin-top:8px;font-weight:700}
+.highlight{background:#fff8e1;border-left:4px solid #f5a623;padding:14px;margin:16px 0;border-radius:5px}
+.danger-box{background:#fce4ec;border-left:4px solid #e94560;padding:14px;margin:16px 0;border-radius:5px}
+.success-box{background:#e8f5e9;border-left:4px solid #2ecc71;padding:14px;margin:16px 0;border-radius:5px}
+.formula{background:#1a1a2e;color:#a9dc76;padding:14px 18px;border-radius:8px;font-family:'Courier New',monospace;margin:12px 0;font-size:1em}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}.header h1{font-size:1.5em}.content{padding:20px}}
+.tab-nav{display:flex;gap:8px;border-bottom:2px solid #e2e8f0;margin-bottom:20px;flex-wrap:wrap}
+.tab-btn{background:#edf2f7;border:none;padding:10px 18px;border-radius:8px 8px 0 0;cursor:pointer;font-weight:600;color:#4a5568;transition:all .3s}
+.tab-btn:hover{background:#e2e8f0}
+.tab-btn.active{background:#533483;color:#fff}
+.tab-pane{display:none}.tab-pane.active{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.answer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}
+.answer-field{background:#fff;border:2px solid #e2e8f0;border-radius:8px;padding:14px}
+.answer-field label{display:block;font-weight:700;font-size:.85em;color:#1a1a2e;margin-bottom:6px}
+.answer-field input,.answer-field select{width:100%;padding:9px;border:1px solid #ccc;border-radius:5px;font-size:.95em}
+.answer-field input.ok{border-color:#2ecc71;background:#e8f5e9}
+.answer-field input.err{border-color:#e94560;background:#fce4ec}
+.answer-field input.ok:focus,.answer-field input.err:focus{outline:none}
+.feedback{font-size:.8em;margin-top:4px;font-weight:600}
+.feedback.ok{color:#1a6e1a}.feedback.err{color:#9b1a1a}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.btn{border:none;padding:11px 22px;border-radius:8px;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:6px}
+.btn-check{background:#2ecc71;color:#fff}.btn-check:hover{background:#27ae60;transform:translateY(-2px)}
+.btn-reset{background:#f5a623;color:#fff}.btn-reset:hover{background:#e67e22;transform:translateY(-2px)}
+.btn-sol{background:#533483;color:#fff}.btn-sol:hover{background:#3d2563;transform:translateY(-2px)}
+.result-alert{display:none;border-radius:10px;padding:18px;margin:16px 0;border-left:5px solid}
+.solution-card{display:none;background:#fdfefe;border:2px solid #2ecc71;border-radius:12px;padding:24px;margin-top:20px}
+.solution-card h4{color:#27ae60;font-size:1.1em;border-bottom:2px solid #2ecc71;padding-bottom:6px;margin-bottom:14px}
+.solution-item{padding:12px 0;border-bottom:1px dashed #e2e8f0}
+.solution-item:last-child{border:none}
+.estado-costo{background:#f8f9ff;border:2px solid #533483;border-radius:10px;padding:20px;margin:16px 0}
+.estado-costo table th{background:#533483}
+.estado-costo .subtotal td{background:#e8eaff;font-weight:700}
+.estado-costo .total-final td{background:#1a1a2e;color:#fff;font-weight:700}
+.floating-back{position:fixed;bottom:28px;right:28px;background:#533483;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 20px rgba(0,0,0,.35);text-decoration:none;font-size:1.3em;z-index:999;transition:all .3s}
+.floating-back:hover{background:#3d2563;transform:scale(1.1) rotate(-10deg)}
+.nav-btns{display:flex;justify-content:space-between;margin-top:30px;padding-top:20px;border-top:2px solid #eee}
+.nav-btn{padding:10px 22px;border-radius:8px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .3s}
+.nav-prev{background:#edf2f7;color:#4a5568}.nav-prev:hover{background:#e2e8f0}
+.nav-next{background:#533483;color:#fff}.nav-next:hover{background:#3d2563}
+.footer{background:#1a1a2e;color:#fff;padding:24px 40px;text-align:center}
+.footer p{margin:4px 0;opacity:.85;font-size:.95em}
+</style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen py-8">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-xl shadow-lg p-8">
-            <div class="flex justify-between items-center mb-6 border-b pb-4">
-                <h1 class="text-3xl font-bold text-gray-800 flex items-center">
-                    <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-lg mr-4">3</span>
-                    Costos Estimados II
-                </h1>
-                <a href="index.html" class="text-blue-600 hover:text-blue-800 font-medium">
-                    <i class="fas fa-arrow-left mr-2"></i>Volver
-                </a>
-            </div>
+<body>
+<div class="container">
+<div class="header">
+  <h1>&#x1F4CA; Costos Estimados II &mdash; Contabilizaci&oacute;n y Variaciones</h1>
+  <div class="subtitle">Sesi&oacute;n 3 &bull; Contabilidad de Costo II &bull; UCSAR 2026</div>
+  <div class="badges">
+    <span class="badge">&#x1F4C5; 19 de junio de 2026</span>
+    <span class="badge">&#x23F0; 5:00 pm &ndash; 8:00 pm</span>
+    <span class="badge">&#x1F4DD; Evaluaci&oacute;n: Taller Pr&aacute;ctico 10%</span>
+    <span class="badge">&#x1F393; Licenciatura en Contadur&iacute;a</span>
+  </div>
+</div>
+<div class="content">
+<section id="objetivo">
+  <h2>&#x1F3AF; Objetivo de la Sesi&oacute;n</h2>
+  <p>Que el estudiante domine la <strong>contabilizaci&oacute;n completa del ciclo de producci&oacute;n bajo el sistema de Costos Estimados</strong>, registrando correctamente los asientos de los tres elementos del costo, las cuentas de inventario y determinando las variaciones para su posterior ajuste contable.</p>
+  <div class="highlight">
+    <strong>&#x1F4CC; Contenidos de hoy:</strong> Registro contable de Materiales &bull; Mano de Obra &bull; Carga Fabril &bull; Productos en Proceso &bull; Productos Terminados &bull; Costo de Ventas &bull; Variaciones &bull; Estado de Costo de Producci&oacute;n y Ventas
+  </div>
+</section>
 
-            <div class="space-y-6">
-                <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
-                    <h2 class="text-xl font-bold text-blue-800 mb-4"><i class="fas fa-book-open mr-2"></i>Contenidos</h2>
-                    <ul class="list-disc list-inside text-gray-700 space-y-2 ml-4">
-                        <li>Contabilización de la Producción, Registro contable de los Materiales, Mano de Obra, Carga y Carga Fabril, Las Cuentas Productos en Proceso, Productos Terminados, y Costos de Ventas, Estado de Costo de Ventas.</li>
-                    </ul>
-                </div>
+<section id="teoria">
+  <h2>&#x1F4D8; PARTE 1: El Ciclo Contable del Costo Estimado</h2>
+  <p>En el sistema de Costos Estimados, los inventarios se cargan a <strong>costo estimado</strong> (predeterminado), mientras que los costos reales se acumulan separadamente. Al final del per&iacute;odo, la diferencia genera una <strong>variaci&oacute;n</strong> que debe ser contabilizada.</p>
 
-                <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-100">
-                    <h2 class="text-xl font-bold text-yellow-800 mb-4"><i class="fas fa-tasks mr-2"></i>Actividad Evaluativa (10%)</h2>
-                    <p class="text-gray-700 font-medium mb-3">Prueba objetiva | Auto – Evaluación</p>
-                    
-                    <div class="bg-white p-4 rounded border border-gray-200 mt-4 text-gray-600 text-sm">
-                        <i class="fas fa-info-circle mr-2 text-blue-500"></i> Observación: Taller en Aula - Ejercicio
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-8 flex justify-between">
-                <a href="sesion-2.html" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors">
-                    <i class="fas fa-arrow-left mr-2"></i> Sesión Anterior
-                </a>
-                <a href="sesion-4.html" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-                    Siguiente Sesión <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-        </div>
+  <h3>&#x1F4CA; Las Cuentas Clave del Sistema</h3>
+  <table>
+    <tr><th>Cuenta</th><th>Naturaleza</th><th>Funci&oacute;n en el Sistema Estimado</th></tr>
+    <tr><td><strong>Productos en Proceso (PEP)</strong></td><td>Activo (Inventario)</td><td>Acumula costos de producci&oacute;n en curso; se carga al costo estimado</td></tr>
+    <tr><td><strong>Productos Terminados (PT)</strong></td><td>Activo (Inventario)</td><td>Recibe el costo estimado de la producci&oacute;n terminada</td></tr>
+    <tr><td><strong>Costo de Ventas (CV)</strong></td><td>Egreso</td><td>Registra el costo estimado de lo vendido</td></tr>
+    <tr><td><strong>Variaci&oacute;n de Material</strong></td><td>Cuenta de ajuste</td><td>Diferencia entre MPD real e MPD estimado</td></tr>
+    <tr><td><strong>Variaci&oacute;n de Mano de Obra</strong></td><td>Cuenta de ajuste</td><td>Diferencia entre MOD real y MOD estimado</td></tr>
+    <tr><td><strong>Variaci&oacute;n de Carga Fabril</strong></td><td>Cuenta de ajuste</td><td>Diferencia entre CIF real y CIF estimado</td></tr>
+  </table>
+
+  <div class="formula">Variaci&oacute;n = Costo Real &minus; Costo Estimado
+Si el resultado es (+) &rArr; SUBESTIMACI&Oacute;N (Desfavorable) &mdash; Real fue mayor al estimado
+Si el resultado es (&minus;) &rArr; SOBREESTIMACI&Oacute;N (Favorable) &mdash; Real fue menor al estimado</div>
+
+  <h3>&#x1F4D3; Asientos Contables del Ciclo Completo</h3>
+  <p>Utilizaremos los datos de <strong>Industrias Venezolanas C.A.</strong> que produce 200 unidades de un producto X. El costo estimado unitario es: MPD Bs.400 &bull; MOD Bs.250 &bull; CIF Bs.150 = <strong>Bs.800 c/u</strong>. Se vendieron 150 unidades. Costos reales: MPD Bs.85.000 &bull; MOD Bs.53.000 &bull; CIF Bs.31.500.</p>
+
+  <div class="asiento">
+    <div class="titulo">&#x0031;&#xFE0F;&#x20E3; Registro de costos reales incurridos</div>
+    <span class="debe">Productos en Proceso (MPD) &mdash; Bs.80.000</span><br>
+    <span class="debe">Variaci&oacute;n de Material &mdash; Bs.5.000</span><br>
+    <span class="haber">Almac&eacute;n de Materiales &mdash; Bs.85.000</span><br>
+    <small style="color:#666;margin-top:6px;display:block"><em>PEP se carga al estimado (200 &times; 400=80.000); la diferencia va a Variaci&oacute;n</em></small>
+  </div>
+
+  <div class="asiento">
+    <div class="titulo">&#x0032;&#xFE0F;&#x20E3; Registro Mano de Obra Directa</div>
+    <span class="debe">Productos en Proceso (MOD) &mdash; Bs.50.000</span><br>
+    <span class="debe">Variaci&oacute;n de Mano de Obra &mdash; Bs.3.000</span><br>
+    <span class="haber">N&oacute;mina por Pagar &mdash; Bs.53.000</span><br>
+    <small style="color:#666;margin-top:6px;display:block"><em>PEP al estimado (200 &times; 250=50.000); diferencia real-estimado a Variaci&oacute;n</em></small>
+  </div>
+
+  <div class="asiento">
+    <div class="titulo">&#x0033;&#xFE0F;&#x20E3; Registro Carga Fabril (CIF)</div>
+    <span class="debe">Productos en Proceso (CIF) &mdash; Bs.30.000</span><br>
+    <span class="debe">Variaci&oacute;n de Carga Fabril &mdash; Bs.1.500</span><br>
+    <span class="haber">Costos Indirectos Aplicados &mdash; Bs.31.500</span><br>
+    <small style="color:#666;margin-top:6px;display:block"><em>PEP al estimado (200 &times; 150=30.000)</em></small>
+  </div>
+
+  <div class="asiento">
+    <div class="titulo">&#x0034;&#xFE0F;&#x20E3; Transferencia a Productos Terminados</div>
+    <span class="debe">Productos Terminados &mdash; Bs.160.000</span><br>
+    <span class="haber">Productos en Proceso &mdash; Bs.160.000</span><br>
+    <small style="color:#666;margin-top:6px;display:block"><em>200 unidades terminadas &times; Bs.800 estimado = Bs.160.000</em></small>
+  </div>
+
+  <div class="asiento">
+    <div class="titulo">&#x0035;&#xFE0F;&#x20E3; Registro del Costo de Ventas (150 unidades vendidas)</div>
+    <span class="debe">Costo de Ventas &mdash; Bs.120.000</span><br>
+    <span class="haber">Productos Terminados &mdash; Bs.120.000</span><br>
+    <small style="color:#666;margin-top:6px;display:block"><em>150 unidades &times; Bs.800 estimado = Bs.120.000</em></small>
+  </div>
+
+  <div class="asiento">
+    <div class="titulo">&#x0036;&#xFE0F;&#x20E3; Cierre de las Variaciones (subestimaci&oacute;n = desfavorable)</div>
+    <span class="debe">Costo de Ventas (ajuste) &mdash; Bs.9.500</span><br>
+    <span class="haber">Variaci&oacute;n de Material &mdash; Bs.5.000</span><br>
+    <span class="haber">Variaci&oacute;n de Mano de Obra &mdash; Bs.3.000</span><br>
+    <span class="haber">Variaci&oacute;n de Carga Fabril &mdash; Bs.1.500</span><br>
+    <small style="color:#666;margin-top:6px;display:block"><em>Cuando la variaci&oacute;n es desfavorable (costo real &gt; estimado), se carga al Costo de Ventas</em></small>
+  </div>
+
+  <h3>&#x1F4C4; Estado de Costo de Producci&oacute;n y Ventas</h3>
+  <div class="estado-costo">
+    <table>
+      <tr><th colspan="2">INDUSTRIAS VENEZOLANAS C.A. &mdash; Estado de Costo de Producci&oacute;n y Ventas</th></tr>
+      <tr><td>Materia Prima Directa (Estimado)</td><td>Bs. 80.000</td></tr>
+      <tr><td>Mano de Obra Directa (Estimado)</td><td>Bs. 50.000</td></tr>
+      <tr><td>Carga Fabril (Estimado)</td><td>Bs. 30.000</td></tr>
+      <tr class="subtotal"><td><strong>Costo de Producci&oacute;n Estimado (200 u.)</strong></td><td><strong>Bs. 160.000</strong></td></tr>
+      <tr><td>Inv. Inicial Productos Terminados</td><td>Bs. 0</td></tr>
+      <tr><td>(-) Inv. Final Productos Terminados (50 u. &times; 800)</td><td>(Bs. 40.000)</td></tr>
+      <tr class="subtotal"><td><strong>Costo de Ventas (Estimado)</strong></td><td><strong>Bs. 120.000</strong></td></tr>
+      <tr><td>(+) Variaciones Desfavorables Netas</td><td>Bs. 9.500</td></tr>
+      <tr class="total-final"><td><strong>COSTO DE VENTAS REAL AJUSTADO</strong></td><td><strong>Bs. 129.500</strong></td></tr>
+    </table>
+  </div>
+</section>
+<section id="taller">
+  <h2>&#x1F4DD; PARTE 2: Taller Evaluativo Interactivo (10%)</h2>
+  <div class="danger-box">
+    <strong>&#x26A0;&#xFE0F; Instrucciones:</strong> Lee cuidadosamente los datos de la empresa y resuelve cada paso en el simulador. Al finalizar haz clic en <strong>"Validar Respuestas"</strong>. El sistema calcular&aacute; tu nota autom&aacute;ticamente.
+  </div>
+
+  <div style="background:#f8f9ff;border:2px solid #533483;border-radius:12px;padding:24px;margin-bottom:20px">
+    <h3 style="color:#1a1a2e;margin-top:0">&#x1F3ED; CASO: CALZADOS DEL NORTE C.A. &mdash; Mes de Junio 2026</h3>
+    <p>La empresa produce <strong>300 pares de zapatos</strong>. El costo estimado unitario fue determinado por el departamento de costos as&iacute;:</p>
+    <div class="grid2">
+      <div>
+        <table style="font-size:.9em">
+          <tr><th colspan="2">Hoja de Costo Estimado (por par)</th></tr>
+          <tr><td>Materia Prima Directa (MPD)</td><td><strong>Bs. 500</strong></td></tr>
+          <tr><td>Mano de Obra Directa (MOD)</td><td><strong>Bs. 300</strong></td></tr>
+          <tr><td>Carga Fabril (CIF)</td><td><strong>Bs. 200</strong></td></tr>
+          <tr style="background:#e8eaff"><td><strong>Costo Estimado Unitario</strong></td><td><strong>Bs. 1.000</strong></td></tr>
+        </table>
+      </div>
+      <div>
+        <table style="font-size:.9em">
+          <tr><th colspan="2">Costos Reales del Mes</th></tr>
+          <tr><td>MPD consumida</td><td><strong>Bs. 157.000</strong></td></tr>
+          <tr><td>MOD pagada</td><td><strong>Bs. 88.000</strong></td></tr>
+          <tr><td>CIF incurrido</td><td><strong>Bs. 64.500</strong></td></tr>
+          <tr style="background:#fce4ec"><td><strong>Total Real</strong></td><td><strong>Bs. 309.500</strong></td></tr>
+        </table>
+      </div>
     </div>
+    <div class="highlight" style="margin-top:12px">
+      <strong>Datos adicionales:</strong> De los 300 pares producidos, se vendieron <strong>250 pares</strong>. No hay inventario inicial de Productos Terminados.
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('t1',this)"><i class="fas fa-layer-group"></i> Paso 1: Costo Total Estimado</button>
+    <button class="tab-btn" onclick="showTab('t2',this)"><i class="fas fa-exchange-alt"></i> Paso 2: Variaciones</button>
+    <button class="tab-btn" onclick="showTab('t3',this)"><i class="fas fa-file-invoice-dollar"></i> Paso 3: Estado de Costo</button>
+  </div>
+
+  <form id="taller-form" onsubmit="return false">
+
+    <div id="t1" class="tab-pane active">
+      <p style="color:#64748b;margin-bottom:14px"><i class="fas fa-lightbulb"></i> Calcula los totales del costo estimado para la producci&oacute;n de 300 pares.</p>
+      <div class="answer-grid">
+        <div class="answer-field">
+          <label>MPD Total Estimado (Bs.)</label>
+          <input type="number" id="a_mpd_tot" placeholder="300 &times; 500 = ?" step="1">
+          <div class="feedback" id="f_mpd_tot"></div>
+        </div>
+        <div class="answer-field">
+          <label>MOD Total Estimado (Bs.)</label>
+          <input type="number" id="a_mod_tot" placeholder="300 &times; 300 = ?" step="1">
+          <div class="feedback" id="f_mod_tot"></div>
+        </div>
+        <div class="answer-field">
+          <label>CIF Total Estimado (Bs.)</label>
+          <input type="number" id="a_cif_tot" placeholder="300 &times; 200 = ?" step="1">
+          <div class="feedback" id="f_cif_tot"></div>
+        </div>
+        <div class="answer-field" style="border-color:#533483;background:#f8f0ff">
+          <label style="color:#533483">Costo Total Producci&oacute;n Estimado (Bs.)</label>
+          <input type="number" id="a_prod_tot" placeholder="MPD+MOD+CIF = ?" step="1">
+          <div class="feedback" id="f_prod_tot"></div>
+        </div>
+        <div class="answer-field">
+          <label>Costo de Ventas Estimado (250 pares) (Bs.)</label>
+          <input type="number" id="a_cv_est" placeholder="250 &times; 1.000 = ?" step="1">
+          <div class="feedback" id="f_cv_est"></div>
+        </div>
+        <div class="answer-field">
+          <label>Inv. Final Prod. Terminados (50 pares) (Bs.)</label>
+          <input type="number" id="a_inv_fin" placeholder="50 &times; 1.000 = ?" step="1">
+          <div class="feedback" id="f_inv_fin"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t2" class="tab-pane">
+      <p style="color:#64748b;margin-bottom:14px"><i class="fas fa-lightbulb"></i> Determina la variaci&oacute;n de cada elemento (Real &minus; Estimado). Indica si es Favorable (F) o Desfavorable (D).</p>
+      <div class="answer-grid">
+        <div class="answer-field">
+          <label>Variaci&oacute;n MPD (Bs.)</label>
+          <input type="number" id="a_var_mpd" placeholder="157.000 &minus; 150.000 = ?" step="1">
+          <div class="feedback" id="f_var_mpd"></div>
+        </div>
+        <div class="answer-field">
+          <label>Variaci&oacute;n MOD (Bs.)</label>
+          <input type="number" id="a_var_mod" placeholder="88.000 &minus; 90.000 = ?" step="1">
+          <div class="feedback" id="f_var_mod"></div>
+        </div>
+        <div class="answer-field">
+          <label>Variaci&oacute;n CIF (Bs.)</label>
+          <input type="number" id="a_var_cif" placeholder="64.500 &minus; 60.000 = ?" step="1">
+          <div class="feedback" id="f_var_cif"></div>
+        </div>
+        <div class="answer-field" style="border-color:#e94560;background:#fce4ec">
+          <label style="color:#9b1a1a">Variaci&oacute;n Neta Total (Bs.)</label>
+          <input type="number" id="a_var_tot" placeholder="Suma algebraica variaciones" step="1">
+          <div class="feedback" id="f_var_tot"></div>
+        </div>
+        <div class="answer-field">
+          <label>Tipo variaci&oacute;n MPD</label>
+          <select id="a_tipo_mpd">
+            <option value="">Seleccione...</option>
+            <option value="D">Desfavorable (D)</option>
+            <option value="F">Favorable (F)</option>
+          </select>
+          <div class="feedback" id="f_tipo_mpd"></div>
+        </div>
+        <div class="answer-field">
+          <label>Tipo variaci&oacute;n MOD</label>
+          <select id="a_tipo_mod">
+            <option value="">Seleccione...</option>
+            <option value="D">Desfavorable (D)</option>
+            <option value="F">Favorable (F)</option>
+          </select>
+          <div class="feedback" id="f_tipo_mod"></div>
+        </div>
+        <div class="answer-field">
+          <label>Tipo variaci&oacute;n CIF</label>
+          <select id="a_tipo_cif">
+            <option value="">Seleccione...</option>
+            <option value="D">Desfavorable (D)</option>
+            <option value="F">Favorable (F)</option>
+          </select>
+          <div class="feedback" id="f_tipo_cif"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t3" class="tab-pane">
+      <p style="color:#64748b;margin-bottom:14px"><i class="fas fa-lightbulb"></i> Completa el Estado de Costo de Producci&oacute;n y Ventas final (valores ajustados).</p>
+      <div class="answer-grid">
+        <div class="answer-field">
+          <label>Costo de Ventas Estimado (Bs.)</label>
+          <input type="number" id="a_est_cv2" placeholder="= a_cv_est" step="1">
+          <div class="feedback" id="f_est_cv2"></div>
+        </div>
+        <div class="answer-field">
+          <label>(+) Ajuste por Variaciones Netas (Bs.)</label>
+          <input type="number" id="a_ajuste" placeholder="Variaci&oacute;n neta total" step="1">
+          <div class="feedback" id="f_ajuste"></div>
+        </div>
+        <div class="answer-field" style="border-color:#1a1a2e;background:#f0f0ff">
+          <label style="color:#1a1a2e"><strong>Costo de Ventas Real Ajustado (Bs.)</strong></label>
+          <input type="number" id="a_cv_real" placeholder="CV Est. +/- Variaci&oacute;n" step="1">
+          <div class="feedback" id="f_cv_real"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="result-box" class="result-alert"></div>
+
+    <div class="btn-row">
+      <button type="button" class="btn btn-check" onclick="validar()"><i class="fas fa-check-double"></i> Validar Respuestas</button>
+      <button type="button" class="btn btn-reset" onclick="resetTaller()"><i class="fas fa-rotate"></i> Limpiar</button>
+      <button type="button" class="btn btn-sol" onclick="toggleSol()"><i class="fas fa-eye"></i> Ver Soluci&oacute;n</button>
+    </div>
+  </form>
+
+  <div id="solution-box" class="solution-card">
+    <h4><i class="fas fa-chalkboard-teacher"></i> Soluci&oacute;n Completa Explicada</h4>
+    <div class="solution-item">
+      <strong>Paso 1 &mdash; Costos Estimados Totales:</strong><br>
+      MPD: 300 &times; 500 = <strong>Bs.150.000</strong> &bull; MOD: 300 &times; 300 = <strong>Bs.90.000</strong> &bull; CIF: 300 &times; 200 = <strong>Bs.60.000</strong><br>
+      Total Producci&oacute;n Estimada: <strong>Bs.300.000</strong> &bull; Costo Ventas (250u.): <strong>Bs.250.000</strong> &bull; Inv. Final (50u.): <strong>Bs.50.000</strong>
+    </div>
+    <div class="solution-item">
+      <strong>Paso 2 &mdash; Variaciones (Real &minus; Estimado):</strong><br>
+      &bull; MPD: 157.000 &minus; 150.000 = <strong>+Bs.7.000 (Desfavorable)</strong> &rarr; Real mayor al estimado<br>
+      &bull; MOD: 88.000 &minus; 90.000 = <strong>&minus;Bs.2.000 (Favorable)</strong> &rarr; Real menor al estimado<br>
+      &bull; CIF: 64.500 &minus; 60.000 = <strong>+Bs.4.500 (Desfavorable)</strong> &rarr; Real mayor al estimado<br>
+      &bull; Variaci&oacute;n Neta: 7.000 &minus; 2.000 + 4.500 = <strong>+Bs.9.500 (Desfavorable Neta)</strong>
+    </div>
+    <div class="solution-item">
+      <strong>Paso 3 &mdash; Estado de Costo Ajustado:</strong><br>
+      Costo Ventas Estimado: Bs.250.000<br>
+      (+) Variaciones Desfavorables Netas: Bs.9.500<br>
+      <strong>Costo de Ventas Real Ajustado: Bs.259.500</strong>
+    </div>
+    <div class="success-box" style="margin-top:12px">
+      <strong>&#x1F4A1; Interpretaci&oacute;n:</strong> La empresa subestim&oacute; sus costos de MPD y CIF. Solo la MOD result&oacute; con una variaci&oacute;n favorable (se gast&oacute; menos de lo previsto). La variaci&oacute;n neta desfavorable de Bs.9.500 incrementa el Costo de Ventas real, lo que reduce el margen de utilidad bruta respecto a lo planificado.
+    </div>
+  </div>
+</section>
+
+<a href="index.html" class="floating-back" title="Volver al &iacute;ndice"><i class="fas fa-home"></i></a>
+
+<div class="nav-btns">
+  <a href="sesion-2.html" class="nav-btn nav-prev"><i class="fas fa-arrow-left"></i> Sesi&oacute;n Anterior</a>
+  <a href="sesion-4.html" class="nav-btn nav-next">Siguiente Sesi&oacute;n <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+
+<div class="footer">
+  <p><strong>&#x2705; Sesi&oacute;n 3 &mdash; Costos Estimados II &mdash; Lista para impartirse</strong></p>
+  <p>Contabilidad de Costo II &bull; UCSAR 2026-II &bull; Licenciatura en Contadur&iacute;a</p>
+</div>
+</div>
+<script>
+const answers = {
+  a_mpd_tot:150000, a_mod_tot:90000, a_cif_tot:60000, a_prod_tot:300000,
+  a_cv_est:250000, a_inv_fin:50000,
+  a_var_mpd:7000, a_var_mod:-2000, a_var_cif:4500, a_var_tot:9500,
+  a_tipo_mpd:'D', a_tipo_mod:'F', a_tipo_cif:'D',
+  a_est_cv2:250000, a_ajuste:9500, a_cv_real:259500
+};
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function setFeedback(id, ok, msg) {
+  const inp = document.getElementById(id);
+  const fb = document.getElementById('f_'+id);
+  if(!inp||!fb) return;
+  inp.classList.remove('ok','err');
+  inp.classList.add(ok?'ok':'err');
+  fb.className='feedback '+(ok?'ok':'err');
+  fb.textContent = ok ? '\u2713 Correcto' : '\u2717 '+msg;
+}
+
+function validar() {
+  let total=0, correct=0;
+  for(const [id, ans] of Object.entries(answers)) {
+    const el = document.getElementById(id);
+    if(!el) continue;
+    total++;
+    const val = el.value.trim();
+    if(val==='') { setFeedback(id,false,'Campo requerido'); continue; }
+    let ok = false;
+    if(typeof ans==='string') { ok = val.toUpperCase()===ans; }
+    else { ok = Math.abs(parseFloat(val)-ans)<=1; }
+    if(ok) correct++;
+    const expected = typeof ans==='string' ? (ans==='D'?'Desfavorable':'Favorable') : 'Bs.'+ans.toLocaleString('es-VE');
+    setFeedback(id, ok, 'Esperado: '+expected);
+  }
+  const pct = Math.round(correct/total*100);
+  const box = document.getElementById('result-box');
+  box.style.display='block';
+  if(pct===100){
+    box.style.background='#e8f5e9'; box.style.borderColor='#2ecc71'; box.style.color='#1a6e1a';
+    box.innerHTML='<strong>\uD83C\uDFC6 \xA1Excelente! Nota: 10/10</strong> &mdash; Dominaste el ciclo contable completo de los Costos Estimados.';
+  } else if(pct>=70){
+    box.style.background='#fff8e1'; box.style.borderColor='#f5a623'; box.style.color='#7a4f00';
+    box.innerHTML='<strong>\uD83C\uDFC5 Bien! Nota aprox.: '+Math.round(pct*0.1)+'/10</strong> &mdash; Correctas: '+correct+'/'+total+'. Revisa los campos en rojo.';
+  } else {
+    box.style.background='#fce4ec'; box.style.borderColor='#e94560'; box.style.color='#7f0000';
+    box.innerHTML='<strong>\u26A0 Requiere repaso. Nota: '+Math.round(pct*0.1)+'/10</strong> &mdash; '+correct+'/'+total+' correctas. Haz clic en "Ver Soluci\xF3n" para revisar.';
+  }
+  box.scrollIntoView({behavior:'smooth'});
+}
+
+function resetTaller() {
+  document.getElementById('taller-form').reset();
+  document.querySelectorAll('#taller-form input,#taller-form select').forEach(el=>{el.classList.remove('ok','err');});
+  document.querySelectorAll('.feedback').forEach(fb=>{fb.textContent='';fb.className='feedback';});
+  document.getElementById('result-box').style.display='none';
+  document.getElementById('solution-box').style.display='none';
+}
+
+function toggleSol() {
+  const s = document.getElementById('solution-box');
+  s.style.display = s.style.display==='block'?'none':'block';
+  if(s.style.display==='block') s.scrollIntoView({behavior:'smooth'});
+}
+</script>
 </body>
 </html>
